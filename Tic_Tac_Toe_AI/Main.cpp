@@ -58,4 +58,17 @@ int askNumber(string question, int high, int low) {
 }
 
 
+//This function is used to define who starts playing.
+char humanSymbol() {
+	char go_first = askYesNo("¿Quieres empezar?");
 
+	if (go_first == 'y')
+	{
+		cout << "Buena elección, la necesitarás";
+		return X;
+	}
+	else {
+		cout << "Admiro tu valentía, yo empezaré entonces";
+		return O;
+	}
+}
