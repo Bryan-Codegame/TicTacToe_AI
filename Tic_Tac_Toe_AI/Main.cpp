@@ -6,6 +6,8 @@
 #include <vector>
 #include <locale.h>
 
+using namespace std;
+
 //Global Constants
 const char X = 'X';
 const char O = 'O';
@@ -15,16 +17,20 @@ const char NO_ONE = 'N';
 
 //Prototype Functions
 void instructions();
+void displayBoard(const vector<char>& board);
 char askYesNo(string question);
 int askNumber(string question, int high, int low = 0);
 
-using namespace std;
 
 //Function main
 int main() {
 	setlocale(LC_ALL, "spanish");
 
+	const int NUM_SQUARES = 9;
+	vector<char> board(NUM_SQUARES, EMPTY);
+
 	instructions();
+	displayBoard(board);
 }
 
 void instructions() {
@@ -71,4 +77,22 @@ char humanSymbol() {
 		cout << "Admiro tu valentía, yo empezaré entonces";
 		return O;
 	}
+}
+
+char opponent(char symbol) {
+	if (symbol == X) {
+		return O;
+	}
+	else
+	{
+		return X;
+	}
+}
+
+//Display board on console
+void displayBoard(const vector<char>& board) {
+	cout << "\n\t" << board[0] << " | " << board[1] << " | " << board[2];
+	cout << "\n\t" << board[3] << " | " << board[4] << " | " << board[5];
+	cout << "\n\t" << board[6] << " | " << board[7] << " | " << board[8];
+	cout << "\n";
 }
