@@ -11,16 +11,17 @@ using namespace std;
 //Global Constants
 const char X = 'X';
 const char O = 'O';
-const char T = 'T';
+const char TIE = 'T';
 const char EMPTY = ' ';
 const char NO_ONE = 'N';
 
 //Prototype Functions
+char winner(const vector<char>& board);
 void instructions();
 void displayBoard(const vector<char>& board);
 char askYesNo(string question);
 int askNumber(string question, int high, int low = 0);
-
+bool isLegal(int move, const vector<char>& board);
 
 //Function main
 int main() {
@@ -31,6 +32,42 @@ int main() {
 
 	instructions();
 	displayBoard(board);
+}
+
+//Return the piece winner a tie or noBody
+char winner(const vector<char>& board)
+{
+	//This are the posibilities to win.
+	const int WINNING_POS[8][3] = { {0, 1, 2},
+									{3, 4, 5},
+									{6, 7, 8},
+									{0, 3, 6},
+									{1, 4, 7},
+									{2, 5, 8},
+									{2, 4, 6},
+									{0, 4, 8} };
+
+	const int TOTAL_ROWS = 8;
+
+	//Return the winner
+	for (int row = 0; row < TOTAL_ROWS; row++)
+	{
+		if ((board[WINNING_POS[row][0]] != EMPTY) &&
+			(board[WINNING_POS[row][0]] == board[WINNING_POS[row][1]]) &&
+			(board[WINNING_POS[row][1]] == board[WINNING_POS[row][2]])) 
+		{
+			return board[WINNING_POS[row][0]];
+		}
+
+	}
+
+	//Return a Tie
+	if (count(board.begin(), board.end(), EMPTY) == 0) {
+		return TIE;
+	}
+
+	//Return that no one is the winner yet
+	return NO_ONE;
 }
 
 void instructions() {
@@ -96,3 +133,5 @@ void displayBoard(const vector<char>& board) {
 	cout << "\n\t" << board[6] << " | " << board[7] << " | " << board[8];
 	cout << "\n";
 }
+
+
