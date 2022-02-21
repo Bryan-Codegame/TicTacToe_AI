@@ -135,3 +135,11 @@ void displayBoard(const vector<char>& board) {
 }
 
 
+//I use inline because this function has just one line inside, thefore compiler can make a copy of this function to use on main  without  jump to another part of your code to call the function. This needs their own prototype like other functions. This can result in a performance boost.
+
+//Returns wheater the move is legal or not.
+
+inline bool isLegal(int move, const vector<char>& board) {
+
+	return (board[move] == EMPTY);
+}
