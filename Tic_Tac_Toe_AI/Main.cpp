@@ -22,6 +22,7 @@ void displayBoard(const vector<char>& board);
 char askYesNo(string question);
 int askNumber(string question, int high, int low = 0);
 bool isLegal(int move, const vector<char>& board);
+int humanMove(const vector<char>& board, char human);
 
 //Function main
 int main() {
@@ -31,7 +32,7 @@ int main() {
 	vector<char> board(NUM_SQUARES, EMPTY);
 
 	instructions();
-	displayBoard(board);
+
 }
 
 //Return the piece winner a tie or noBody
@@ -100,7 +101,6 @@ int askNumber(string question, int high, int low) {
 	return number;
 }
 
-
 //This function is used to define who starts playing.
 char humanSymbol() {
 	char go_first = askYesNo("¿Quieres empezar?");
@@ -143,3 +143,18 @@ inline bool isLegal(int move, const vector<char>& board) {
 
 	return (board[move] == EMPTY);
 }
+
+//Capture the human's move and return int move
+int humanMove(const vector<char>& board, char human) {
+	int move = askNumber("¿Elige una posición del tablero?", (board.size() - 1));
+
+	while (!isLegal(move, board)) {
+		cout << "\nEsa posición ya está ocupada humano tonto.\n";
+		move = askNumber("¿Elige una posición del tablero?", (board.size() - 1));
+	}
+
+	cout << "Bien..\n";
+	return move;
+}
+
+
