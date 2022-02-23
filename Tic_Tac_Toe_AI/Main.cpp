@@ -34,12 +34,32 @@ int main() {
 	setlocale(LC_ALL, "spanish");
 
 	const int NUM_SQUARES = 9;
+	int move;
 	vector<char> board(NUM_SQUARES, EMPTY);
 
 	instructions();
 	char player = humanSymbol();
-	char computer = opponent(humanSymbol());
+	char computer = opponent(player);
 	char turn = X;
+
+	//displayBoard(board);
+
+	while (winner(board) == NO_ONE) {
+		
+		if (turn == player) {
+			move = humanMove(board, player);
+			board[move] = player;
+		}
+		else {
+			move = computerMove(board, computer);
+			board[move] = computer;
+		}
+
+		turn = opponent(turn);
+		displayBoard(board);
+	}
+
+	announceWinner(winner(board), player, computer);
 
 }
 
@@ -102,7 +122,7 @@ char askYesNo(string question) {
 int askNumber(string question, int high, int low) {
 	int number;
 	do {
-		cout << question << "(" << high << " - " << low << ")";
+		cout << question << "(" << low << " - " << high << ")";
 		cin >> number;
 	} while (number > high || number < low);
 
@@ -115,11 +135,11 @@ char humanSymbol() {
 
 	if (go_first == 'y')
 	{
-		cout << "Buena elección, la necesitarás";
+		cout << "Buena elección, la necesitarás\n";
 		return X;
 	}
 	else {
-		cout << "Admiro tu valentía, yo empezaré entonces";
+		cout << "Admiro tu valentía, yo empezaré entonces\n";
 		return O;
 	}
 }
@@ -243,7 +263,7 @@ void announceWinner(char winner, char human, char computer) {
 	}
 	else {
 		cout << "\n ES UN EMPATE\n";
-		cout << "\nQue suerte tienes humano, celébralo es lo mejor que lograrás";
+		cout << "\nQue suerte tienes humano, celébralo es lo mejor que lograrás.\n";
 	}
 }
 
