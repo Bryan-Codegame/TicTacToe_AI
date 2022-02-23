@@ -20,9 +20,12 @@ char winner(const vector<char>& board);
 void instructions();
 void displayBoard(const vector<char>& board);
 char askYesNo(string question);
+char humanSymbol();
+char opponent(char symbol);
 int askNumber(string question, int high, int low = 0);
 bool isLegal(int move, const vector<char>& board);
 int humanMove(const vector<char>& board, char human);
+int computerMove(vector<char> board, char computer);
 
 //Function main
 int main() {
@@ -32,6 +35,9 @@ int main() {
 	vector<char> board(NUM_SQUARES, EMPTY);
 
 	instructions();
+	char player = humanSymbol();
+	char computer = opponent(humanSymbol());
+	char turn = X;
 
 }
 
@@ -156,5 +162,73 @@ int humanMove(const vector<char>& board, char human) {
 	cout << "Bien..\n";
 	return move;
 }
+
+
+int computerMove(vector<char> board, char computer) {
+	int move = 0;
+	bool foundSpace = false;
+
+	//Try to know if I will be the winner with the next move
+	while (!foundSpace && move < board.size()) {
+
+		if (isLegal(move, board)) {
+
+			//If I choose this square, 
+			board[move] = computer;
+			//I'm gonna be the winner?
+			foundSpace = winner(board) == computer;
+			//I undo the action because it's just a test.
+			board[move] = EMPTY;
+		}
+
+		if (!foundSpace) {
+			++move;
+		}
+	}
+
+	//Try to know if the human will be the winner with the next move
+	if (!foundSpace) {
+		move = 0;
+		char human = opponent(computer);
+		while (!foundSpace && move < board.size()) {
+
+			if (isLegal(move, board)) {
+
+				//If I choose this square, 
+				board[move] = human;
+				//I'm gonna be the winner?
+				foundSpace = winner(board) == human;
+				//I undo the action because it's just a test.
+				board[move] = EMPTY;
+			}
+
+			if (!foundSpace) {
+				++move;
+			}
+		}
+
+	}
+
+	//Find the best move starting on center
+	if (!foundSpace) {
+		move = 0;
+		unsigned int i = 0;
+		const int BEST_MOVE[] = { 4, 0, 2, 6, 8, 1, 3, 5, 7 };
+
+		while (!foundSpace && i < board.size()) {
+
+			move = BEST_MOVE[i];
+			if (isLegal(move, board)) {
+				foundSpace = true;
+			}
+
+			++i;
+		}
+	}
+
+	cout << "\nUsaré la posición " << move << "." << endl;
+	return move;
+}
+
 
 
