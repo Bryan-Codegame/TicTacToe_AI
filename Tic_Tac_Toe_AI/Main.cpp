@@ -26,6 +26,8 @@ int askNumber(string question, int high, int low = 0);
 bool isLegal(int move, const vector<char>& board);
 int humanMove(const vector<char>& board, char human);
 int computerMove(vector<char> board, char computer);
+void announceWinner(char winner, char human, char computer);
+
 
 //Function main
 int main() {
@@ -230,5 +232,18 @@ int computerMove(vector<char> board, char computer) {
 	return move;
 }
 
-
+void announceWinner(char winner, char human, char computer) {
+	if (winner == computer) {
+		cout << "\nEl ganador es: " << winner << endl;
+		cout << "\n Soy el ganador!! Probando una vez más que las computadoras somos mejores que ustedes en todo sentido.\n";
+	}
+	else if (winner == human) {
+		cout << "\nEl ganador es: " << winner << endl;
+		cout << "\nNo es posible!! Hiciste trampa humano!!";
+	}
+	else {
+		cout << "\n ES UN EMPATE\n";
+		cout << "\nQue suerte tienes humano, celébralo es lo mejor que lograrás";
+	}
+}
 
